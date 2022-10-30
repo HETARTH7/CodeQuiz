@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { rmSync } = require("fs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 app.use(express.json());
@@ -29,4 +29,15 @@ app.post("/register", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
+app.post("/login", (req, res) => {
+  const user = User.find({
+    email: req.body.email,
+    password: req.body.password,
+  });
+  if (user) {
+    res.status("200").json({ user: true });
+  } else {
+    res.status("400").json({ user: false });
+  }
+});
 app.listen(5000, () => console.log("Server running on port 5000"));
