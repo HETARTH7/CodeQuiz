@@ -1,0 +1,55 @@
+.login {
+  background-color: #fff4e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.form {
+  background-color: #ffd8a8;
+  max-width: 450px;
+  width: 80%;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form,
+div {
+  margin-bottom: 20px;
+}
+
+#name {
+  border: 1px solid #ffa94d;
+  border-radius: 15px;
+  padding: 10px;
+  width: 80%;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+#welcome {
+  font-size: 400%;
+  margin: 0;
+  font-weight: 800;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.btn {
+  border-radius: 20px;
+  background-color: #ffa94d;
+  width: 80px;
+}
+
+.btn:hover {
+  background-color: #e8590c;
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    width: 80%;
+  }
+}
