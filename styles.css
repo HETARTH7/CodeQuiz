@@ -1,5 +1,8 @@
-.login {
+body {
   background-color: #fff4e6;
+}
+
+.login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,6 +45,7 @@ div {
   border-radius: 20px;
   background-color: #ffa94d;
   width: 80px;
+  margin: 3px;
 }
 
 .btn:hover {
@@ -52,4 +56,8 @@ div {
   .form {
     width: 80%;
   }
+}
+
+#game {
+  text-align: center;
 }
