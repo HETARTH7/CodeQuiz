@@ -52,6 +52,14 @@ div {
   background-color: #e8590c;
 }
 
+#start {
+  background-color: #ff9100e9;
+}
+
+#start:hover {
+  background-color: #e8590c;
+}
+
 @media screen and (max-width: 600px) {
   .form {
     width: 80%;

@@ -2,9 +2,10 @@ let user = localStorage.getItem("name");
 let form = document.getElementById("form");
 let game = document.getElementById("game");
 let topicList = document.getElementById("topics");
+let quiz = document.getElementById("quiz");
 
-const topics = ["Software", "Frontend", "Backend"];
-const selectedTopics = [];
+const topics = ["Software", "DSA", "Java"];
+let selectedTopics = [];
 
 const quizData = {
   Software: [
@@ -45,6 +46,73 @@ const quizData = {
         "Watts S. Humphrey created the Software Process Program at Carnegie Mellon University’s Institute (SEI) in the 1980s, and served as its director from 1986 through the early 1990s. This program was designed to help participants understand and manage the software development process.",
     },
   ],
+  DSA: [
+    {
+      question: "What is a data structure?",
+      options: [
+        "a) A programming language",
+        "b) A collection of algorithms",
+        "c) A way to store and organize data",
+        "d) A type of computer hardware",
+      ],
+      answer: "c",
+      explanation:
+        "A data structure is a way to store and organize data efficiently, enhancing access and manipulation, unlike programming languages, algorithms, or computer hardware.",
+    },
+    {
+      question: "What are the disadvantages of arrays?",
+      options: [
+        "a) Index value of an array can be negative",
+        "b) Elements are sequentially accessed",
+        "c) Data structure like queue or stack cannot be implemented",
+        "d) There are chances of wastage of memory space if elements inserted in an array are lesser than the allocated size",
+      ],
+      answer: "d",
+      explanation:
+        "Arrays are of fixed size. If we insert elements less than the allocated size, unoccupied positions can’t be used again. Wastage will occur in memory.",
+    },
+    {
+      question: "Which data structure is used for implementing recursion?",
+      options: ["a) Stack", "b) Queue", "c) List", "d) Array"],
+      answer: "a",
+      explanation: "Stacks are used for the implementation of Recursion.",
+    },
+  ],
+
+  Java: [
+    {
+      question: "Who invented Java Programming?",
+      options: [
+        "a) Guido van Rossum",
+        "b) James Gosling",
+        "c) Dennis Ritchie",
+        "d) Bjarne Stroustrup",
+      ],
+      answer: "b",
+      explanation:
+        "Java programming was developed by James Gosling at Sun Microsystems in 1995. James Gosling is well known as the father of Java.",
+    },
+    {
+      question: "Which statement is true about Java?",
+      options: [
+        "a) Java is a sequence-dependent programming language",
+        "b) Java is a code-dependent programming language",
+        "c) Java is a platform-dependent programming language",
+        "d) Java is a platform-independent programming language",
+      ],
+      answer: "d",
+      explanation:
+        "Java is called ‘Platform Independent Language’ as it primarily works on the principle of ‘compile once, run everywhere’.",
+    },
+    {
+      question:
+        "Which component is used to compile, debug and execute the java programs?",
+      options: ["a) JRE", "b) JIT", "c) JDK", "d) JVM"],
+      answer: "c",
+      explanation:
+        "JDK is a core component of Java Environment and provides all the tools, executables and binaries required to compile, debug and execute a Java Program.",
+    },
+  ],
 };
 
 form.addEventListener("submit", (e) => {
@@ -53,9 +121,11 @@ form.addEventListener("submit", (e) => {
   if (!name) alert("You must enter your name");
   else {
     localStorage.setItem("name", name);
+    localStorage.setItem("score", 0);
     form.hidden = true;
     game.hidden = false;
     document.body.classList.remove("login");
+    displayTopics();
   }
 });
 
@@ -72,9 +142,24 @@ const displayTopics = () => {
         selectedTopics.push(topic);
         button.style.backgroundColor = "#e8590c";
       }
-      console.log(selectedTopics);
     });
     topicList.appendChild(button);
+    game.appendChild(quiz);
+  });
+};
+
+const displayQuestions = () => {
+  var idx = 1;
+  selectedTopics.forEach((selectedTopic) => {
+    const problems = quizData[selectedTopic];
+    problems.forEach((problem) => {
+      const section = document.createElement("div");
+      const question = document.createElement("p");
+      question.textContent = idx + ". " + problem.question;
+      section.appendChild(question);
+      quiz.appendChild(section);
+      idx++;
+    });
   });
 };
 
@@ -86,3 +171,11 @@ if (user) {
   game.hidden = true;
   document.body.classList.add("login");
 }
+
+const startButton = document.getElementById("start");
+
+startButton.addEventListener("click", () => {
+  topicList.innerHTML = "";
+  startButton.hidden = true;
+  displayQuestions();
+});
