@@ -5,6 +5,8 @@ let topicList = document.getElementById("topics");
 let quiz = document.getElementById("quiz");
 let answers;
 let correctAnswers = [];
+let timer = document.createElement("div");
+quiz.appendChild(timer);
 
 const topics = ["Software", "DSA", "Java"];
 let selectedTopics = [];
@@ -199,6 +201,7 @@ const displayQuiz = () => {
       quiz.appendChild(section);
       idx++;
     });
+    startTimer((idx - 1) * 60, timer);
   });
   answers = new Array(idx - 1);
   const submitButton = document.createElement("button");
@@ -228,3 +231,19 @@ startButton.addEventListener("click", () => {
   startButton.hidden = true;
   displayQuiz();
 });
+
+const startTimer = (duration, display) => {
+  var timer = duration,
+    minutes,
+    seconds;
+  setInterval(function () {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    display.textContent = "Time remaining: " + minutes + ":" + seconds;
+    if (--timer < 0) {
+      getResult();
+    }
+  }, 1000);
+};
