@@ -3,6 +3,8 @@ let form = document.getElementById("form");
 let game = document.getElementById("game");
 let topicList = document.getElementById("topics");
 let quiz = document.getElementById("quiz");
+let answers;
+let correctAnswers = [];
 
 const topics = ["Software", "DSA", "Java"];
 let selectedTopics = [];
@@ -124,6 +126,8 @@ form.addEventListener("submit", (e) => {
     localStorage.setItem("score", 0);
     form.hidden = true;
     game.hidden = false;
+    topicList.hidden = false;
+    start.hidden = false;
     document.body.classList.remove("login");
     displayTopics();
   }
@@ -148,27 +152,72 @@ const displayTopics = () => {
   });
 };
 
-const displayQuestions = () => {
+const getResult = () => {
+  var correct = 0;
+  const n = answers.length;
+  for (var i = 0; i < n; i++) {
+    if (answers[i] === correctAnswers[i]) correct++;
+  }
+  const result = (correct / n) * 100;
+  game.innerHTML = "";
+  localStorage.setItem(
+    "score",
+    Math.max(localStorage.getItem("score"), result)
+  );
+  const score = document.createElement("div");
+  score.textContent = "Your score is " + result.toPrecision(4) + "%";
+  const highScore = document.createElement("div");
+  highScore.textContent = "Highscore: " + localStorage.getItem("score");
+  game.appendChild(score);
+  game.appendChild(highScore);
+};
+
+const displayQuiz = () => {
   var idx = 1;
   selectedTopics.forEach((selectedTopic) => {
     const problems = quizData[selectedTopic];
     problems.forEach((problem) => {
+      correctAnswers.push(problem.answer);
       const section = document.createElement("div");
       const question = document.createElement("p");
       question.textContent = idx + ". " + problem.question;
+      const options = document.createElement("form");
+      problem.options.forEach((option) => {
+        radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "name";
+        radio.addEventListener("click", () => {
+          answers[question.textContent[0] - 1] = option[0];
+        });
+        label = document.createElement("label");
+        label.textContent = option;
+        options.appendChild(radio);
+        options.appendChild(label);
+      });
       section.appendChild(question);
+      section.appendChild(options);
       quiz.appendChild(section);
       idx++;
     });
   });
+  answers = new Array(idx - 1);
+  const submitButton = document.createElement("button");
+  submitButton.addEventListener("click", () => getResult());
+  submitButton.textContent = "Submit";
+  submitButton.classList.add("submit", "btn");
+  quiz.appendChild(submitButton);
 };
 
 if (user) {
   form.hidden = true;
   game.hidden = false;
+  topicList.hidden = false;
+  start.hidden = false;
   displayTopics();
 } else {
   game.hidden = true;
+  topicList.hidden = true;
+  start.hidden = true;
   document.body.classList.add("login");
 }
 
@@ -177,5 +226,5 @@ const startButton = document.getElementById("start");
 startButton.addEventListener("click", () => {
   topicList.innerHTML = "";
   startButton.hidden = true;
-  displayQuestions();
+  displayQuiz();
 });
