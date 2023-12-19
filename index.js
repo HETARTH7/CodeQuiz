@@ -6,6 +6,7 @@ let quiz = document.getElementById("quiz");
 let answers;
 let correctAnswers = [];
 let timer = document.createElement("div");
+timer.classList.add("timer");
 quiz.appendChild(timer);
 
 const topics = ["Software", "DSA", "Java"];
@@ -247,3 +248,8 @@ const startTimer = (duration, display) => {
     }
   }, 1000);
 };
+
+const date = new Date();
+const currentYear = date.getFullYear();
+const year = document.getElementById("year");
+year.textContent = currentYear;
